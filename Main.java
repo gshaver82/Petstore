@@ -1,13 +1,15 @@
 public class Main {
     public static void main(String[] args) {
         System.out.println("hello world");
-        Cat pixie = new Cat("pixie", "torty");
+        Pet pixie = new Cat("pixie", "torty");
         Cat max = new Cat("max", "grey tabby", "missing tail");
         pixie.printOutDetails();
         max.printOutDetails();
-        pixie.move();
+        pixie.move();//runtime polymorphism reference type Pet is a cat object 
         max.move();
-        System.out.println(Pet.totalSold);
+        System.out.println(pixie.name);
+        System.out.println(max.name);
+        System.out.println(Pet.getTotalSold());
         Dog wolfy = new Dog();
         System.out.println(wolfy.calledby);
         wolfy.move();
@@ -17,16 +19,28 @@ public class Main {
 }
 
 abstract class Pet {
-    static int totalInStock = 0;
-    static int totalSold = 0;
+    private static int totalInStock = 0; //private encapsulation
+    private static int totalSold = 0;    
+    public static int getTotalInStock() {
+        return totalInStock;
+    }    
+    public static int getTotalSold() {
+        return totalSold;
+    }
+    public void incrementTotalSold() {
+        totalSold++;
+    }
+    
     // DOB, Medical records, etc
-    protected String name;
+    protected String name;//protected  encapsulation again would work better if Pet were a separate package in a different file 
     String petSpecies;
     String breed;
     String notes;
     abstract void move();
     abstract String getName();
     abstract void setName(String name);
+    abstract void printOutDetails();
+
 }
 
 class Cat extends Pet {
@@ -35,9 +49,6 @@ class Cat extends Pet {
         System.out.println(name + " runs and jumps");
     }
 
-    void printOutDetails() {
-        System.out.println(name + " is a " + breed + " " + petSpecies + " notes: " + notes);
-    }
     @Override
     String getName(){
         return name;
@@ -46,16 +57,19 @@ class Cat extends Pet {
     void setName(String name){
         this.name = name;
     };
+    void printOutDetails() {
+        System.out.println(name + " is a " + breed + " " + petSpecies + " notes: " + notes);
+    }
 
     Cat(String name, String breed) {//overload
-        totalSold ++;
+        incrementTotalSold();
         setName(name);
         this.breed = breed;
         this.petSpecies = "cat";
     }
 
     Cat(String name, String breed, String notes) {//overload
-        totalSold ++;
+        incrementTotalSold();
         setName(name);
         this.breed = breed;
         this.petSpecies = "cat";
@@ -64,6 +78,9 @@ class Cat extends Pet {
 }
 class Dog extends Pet{
     String calledby = "rover";
+    void printOutDetails() {
+        System.out.println(name + " is a " + breed + " " + petSpecies + " notes: " + notes);
+    }
     @Override
     void move() {
         System.out.println(calledby + " the dog runs and jumps");
