@@ -15,6 +15,7 @@ public class Main {
         wolfy.move();
         System.out.println(max.name); 
         //if class Pet were in a different package the protected would prevent above line from working 
+        System.out.println(max.getID());
     }
 }
 
@@ -44,6 +45,11 @@ abstract class Pet {
 }
 
 class Cat extends Pet {
+    private String ID;
+    String getID(){
+        return this.ID;
+    }
+
     @Override
     void move() {
         System.out.println(name + " runs and jumps");
@@ -66,6 +72,7 @@ class Cat extends Pet {
         setName(name);
         this.breed = breed;
         this.petSpecies = "cat";
+        this.ID = "secret ID";
     }
 
     Cat(String name, String breed, String notes) {//overload
@@ -74,6 +81,7 @@ class Cat extends Pet {
         this.breed = breed;
         this.petSpecies = "cat";
         this.notes = notes;
+        this.ID = "secret ID";
     }
 }
 class Dog extends Pet{
